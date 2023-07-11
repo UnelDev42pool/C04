@@ -6,11 +6,9 @@
 /*   By: edi-iori <edi-iori@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 19:47:48 by edechena          #+#    #+#             */
-/*   Updated: 2023/07/08 22:09:06 by edi-iori         ###   ########lyon.fr   */
+/*   Updated: 2023/07/10 22:10:49 by edi-iori         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 int	ft_strlen(char *str)
 {
@@ -83,16 +81,32 @@ int	ft_atoi_base(char *str, char *base)
 	int	final;
 	int	i;
 	int	len;
+	int	negative;
 
 	if (!ft_is_valid_base(base))
 		return (0);
 	len = ft_strlen(base);
 	i = 0;
+	negative = 0;
 	final = 0;
 	while (str[i] != '\0')
 	{
-		final += ft_pos(str[i], base) * ft_pow(len, ft_strlen(str) - i - 1);
+		if (str[i] == '-')
+			negative = 1;
+		else if ((str[i] <= '9' && str[i] >= '0')
+			|| (str[i] >= 'a' && str[i] <= 'z'))
+		{
+			final += ft_pos(str[i], base) * ft_pow(len, ft_strlen(str) - i - 1);
+		}
 		i++;
 	}
+	if (negative)
+		return (-final);
 	return (final);
 }
+
+// #include <stdio.h>
+// int	main()
+// {
+// 	printf("%d", ft_atoi_base("42", "123456789ABCDEF"));
+// }

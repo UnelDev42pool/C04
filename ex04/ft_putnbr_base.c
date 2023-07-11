@@ -6,7 +6,7 @@
 /*   By: edi-iori <edi-iori@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:10:19 by edechena          #+#    #+#             */
-/*   Updated: 2023/07/08 22:09:04 by edi-iori         ###   ########lyon.fr   */
+/*   Updated: 2023/07/10 22:08:43 by edi-iori         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int	ft_is_valid_base(char *str)
 	return (1);
 }
 
-void	ft_printbuffer(char *str)
+void	ft_printbuffer(char *str, int size)
 {
-	int	i;
+	int		i;
 
-	i = ft_strlen(str);
+	i = size - 1;
 	while (i >= 0)
 	{
 		write(1, &str[i], 1);
@@ -61,31 +61,45 @@ void	ft_printbuffer(char *str)
 	}
 }
 
+int	check_bad_case(int nbr, char *base)
+{
+	if (nbr == 0)
+	{
+		write(1, &base[0], 1);
+		return (1);
+	}
+	if (!ft_is_valid_base(base))
+	{
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_putnbr_base(int nbr, char *base)
 {
-	const char	minus = '-';
-	int			len;
-	char		buffer[100];
-	int			i;
-	int			negative;
+	int		len;
+	char	buffer[100];
+	int		i;
+	int		negative;
+	int		temp;
 
-	if (!ft_is_valid_base(base))
+	if (check_bad_case(nbr, base))
 		return ;
 	negative = 0;
 	if (nbr < 0)
-	{
 		negative = 1;
-		nbr = -nbr;
-	}
 	len = ft_strlen(base);
 	i = 0;
-	while (nbr > 0)
+	while (nbr != 0)
 	{
-		buffer[i] = base[nbr % len];
+		temp = nbr % len;
+		if (temp < 0)
+			temp = -temp;
+		buffer[i] = base[temp];
 		nbr /= len;
 		i++;
 	}
 	if (negative)
-		write(1, &minus, 1);
-	ft_printbuffer(buffer);
+		write(1, "-", 1);
+	ft_printbuffer(buffer, i);
 }
