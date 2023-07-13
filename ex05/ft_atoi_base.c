@@ -93,8 +93,7 @@ int	ft_atoi_base(char *str, char *base)
 	{
 		if (str[i] == '-')
 			negative = 1;
-		else if ((str[i] <= '9' && str[i] >= '0')
-			|| (str[i] >= 'a' && str[i] <= 'z'))
+		else if ((str[i] <= '~' && str[i] >= ' '))
 		{
 			final += ft_pos(str[i], base) * ft_pow(len, ft_strlen(str) - i - 1);
 		}
